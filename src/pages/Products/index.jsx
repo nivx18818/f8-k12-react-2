@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import productService from "@/services/productService";
+
 function Products() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("https://api01.f8team.dev/api/products")
-      .then((res) => res.json())
-      .then((productData) => setProducts(productData.data));
+    const fetchData = async () => {
+      const res = await productService.getAll();
+      setProducts(res.data);
+    }
+    fetchData();
   }, []);
 
   return (
