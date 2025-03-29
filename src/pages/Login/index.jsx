@@ -1,7 +1,7 @@
 import config from "@/config";
 import httpRequest from "@/utils/httpRequest";
 import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 function Login() {
   const [params] = useSearchParams();
@@ -51,6 +51,7 @@ function Login() {
         {hasError && <p>Email hoặc mật khẩu không hợp lệ.</p>}
         <button>Login</button>
       </form>
+      <Link to="/register">Register</Link>
     </div>
   );
 }

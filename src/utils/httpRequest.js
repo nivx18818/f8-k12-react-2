@@ -13,7 +13,7 @@ const request = async (method, url, data, config) => {
     return res.data;
   } catch (error) {
     console.error(error);
-    return null;
+    return error.response?.data;
   }
 };
 
