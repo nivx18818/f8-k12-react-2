@@ -19,7 +19,6 @@ function Register() {
     watch,
     formState: { errors },
     setError,
-    // clearErrors,
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(registerSchema),

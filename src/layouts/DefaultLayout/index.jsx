@@ -1,7 +1,10 @@
 import { NavLink, Outlet } from "react-router-dom";
 import config from "@/config";
+import useUserContext from "@/hooks/useUserContext";
 
 function DefaultLayout() {
+  const { currentUser } = useUserContext();
+
   return (
     <div className="wrapper">
       <header id="header">
@@ -18,6 +21,7 @@ function DefaultLayout() {
         </nav>
       </header>
       <main id="main">
+        <h1>Hi, {currentUser?.username}</h1>
         <Outlet />
       </main>
       <footer>
