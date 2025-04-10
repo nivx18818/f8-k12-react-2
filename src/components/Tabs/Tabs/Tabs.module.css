@@ -1,0 +1,35 @@
+.container {
+    width: 400px;
+    border: 1.5px solid #373639;
+    border-radius: 12px;
+    overflow: hidden;
+
+    * {
+        color: #b3b1b3;
+    }
+}
+
+.tabList {
+    display: flex;
+}
+
+.tabItem,
+.tabContent {
+    background-color: #191719;
+}
+
+.tabItem {
+    flex: 1;
+    border: 1.5px solid #373639;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.tabItem.active {
+    color: #3bbc9d;
+    background-color: #05201d;
+}
+
+.tabContent {
+    padding: 20px;
+}

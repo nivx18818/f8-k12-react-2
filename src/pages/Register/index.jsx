@@ -1,45 +1,31 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
 import config from "@/config";
-import httpRequest from "@/utils/httpRequest";
 import registerSchema from "@/schema/registerSchema";
 import authService from "@/services/authService";
-import { useEffect } from "react";
-import Input from "@/components/Input";
+import httpRequest from "@/utils/httpRequest";
 
-let timerId = null;
+import { Form, TextInput } from "@/components/Form";
 
 function Register() {
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-    setError,
-  } = useForm({
-    mode: "onChange",
-    resolver: yupResolver(registerSchema),
-  });
 
-  const email = watch("email");
+  // const email = watch("email");
 
-  useEffect(() => {
-    if (!email) return;
+  // useEffect(() => {
+  //   if (!email) return;
 
-    clearTimeout(timerId);
-    timerId = setTimeout(async () => {
-      if (errors.email) return;
+  //   clearTimeout(timerId);
+  //   timerId = setTimeout(async () => {
+  //     if (errors.email) return;
 
-      const alreadyExist = await authService.checkEmail(email);
+  //     const alreadyExist = await authService.checkEmail(email);
 
-      if (alreadyExist) {
-        setError("email", { message: "Email already exists" });
-      }
-    }, 500);
-  });
+  //     if (alreadyExist) {
+  //       setError("email", { message: "Email already exists" });
+  //     }
+  //   }, 500);
+  // });
 
   const onSubmit = async (userInfo) => {
     console.log(userInfo);
@@ -54,44 +40,21 @@ function Register() {
   return (
     <div>
       <h1>Register</h1>
-      <form action="" onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          name="firstName"
-          register={register}
-          errorMessage={errors.firstName?.message}
-          placeholder="First name..."
-        />
-
-        <Input
-          name="lastName"
-          register={register}
-          errorMessage={errors.lastName?.message}
-          placeholder="Last name..."
-        />
-
-        <Input
-          name="email"
-          register={register}
-          errorMessage={errors.email?.message}
-          placeholder="Email..."
-        />
-
-        <Input
-          name="password"
-          register={register}
-          errorMessage={errors.password?.message}
-          placeholder="Password..."
-        />
-
-        <Input
+      <Form
+        schema={registerSchema}
+        formProps={{ mode: "onChange" }}
+        onSubmit={onSubmit}
+      >
+        <TextInput name="firstName" placeholder="First name..." />
+        <TextInput name="lastName" placeholder="Last name..." />
+        <TextInput name="email" placeholder="Email..." />
+        <TextInput name="password" placeholder="Password..." />
+        <TextInput
           name="password_confirmation"
-          register={register}
-          errorMessage={errors.password_confirmation?.message}
           placeholder="Password confirmation..."
         />
-
         <button>Register</button>
-      </form>
+      </Form>
 
       <Link to="/login">Login</Link>
     </div>

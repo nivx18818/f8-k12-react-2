@@ -1,7 +1,6 @@
-function Tab({ title, children }) {
+function Tab({ className, children }) {
   return (
-    <div>
-      <p>{title}</p>
+    <div className={className}>
       <div>{children}</div>
     </div>
   );

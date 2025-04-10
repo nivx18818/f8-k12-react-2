@@ -20,9 +20,9 @@ export const register = async (registerInfo) => {
   return res;
 };
 
-export const checkEmail = async (email) => {
-  const res = await httpRequest.get(`auth/check-email?email=${email}`);
-  return res.exists;
+export const checkInfo = async (type, value) => {
+  const res = await httpRequest.get(`auth/check-${type}?${type}=${value}`);
+  return res.data.exists;
 };
 
 export default {
@@ -30,5 +30,5 @@ export default {
   login,
   logout,
   register,
-  checkEmail,
+  checkInfo,
 };
