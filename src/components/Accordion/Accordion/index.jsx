@@ -32,6 +32,8 @@ function Accordion({
   };
 
   const handleKeyDown = (e, index) => {
+    e.preventDefault();
+
     switch (e.key) {
       case "ArrowRight":
       case "ArrowDown":
@@ -40,6 +42,10 @@ function Accordion({
       case "ArrowLeft":
       case "ArrowUp":
         buttonRefs.current[(index - 1 + items.length) % items.length]?.focus();
+        break;
+      case "Enter":
+      case " ":
+        buttonRefs.current[index].click();
         break;
     }
   };
