@@ -1,18 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProducts } from "@/features/products/productsSlice";
 import { Link } from "react-router-dom";
 
-import productService from "@/services/productService";
-
 function Products() {
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.products.products);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await productService.getAll();
-      setProducts(res.data);
-    }
-    fetchData();
-  }, []);
+    dispatch(getAllProducts());
+  }, [dispatch]);
 
   return (
     <>

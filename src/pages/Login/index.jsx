@@ -1,15 +1,19 @@
 import config from "@/config";
+import { getCurrentUser } from "@/features/auth/authSlice";
 import httpRequest from "@/utils/httpRequest";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 function Login() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("vinh@gmail.com");
+  const [password, setPassword] = useState("12345678");
   const [hasError, setHasError] = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,8 +21,9 @@ function Login() {
     const formValues = { email, password };
 
     try {
-      const data = await httpRequest.post("/auth/login", formValues);
-      httpRequest.setToken(data.access_token);
+      const res = await httpRequest.post("/auth/login", formValues);
+      httpRequest.setToken(res.data.access_token);
+      dispatch(getCurrentUser());
       navigate(params.get("continue") || config.routes.home);
     } catch (error) {
       console.error(error);

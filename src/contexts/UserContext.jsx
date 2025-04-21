@@ -1,35 +1,17 @@
-import authService from "@/services/authService";
-import { createContext, useEffect, useState } from "react";
+import { getCurrentUser } from "@/features/auth/authSlice";
+import { createContext, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const UserContext = createContext();
 
-function UserProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+function UserProvider() {
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchCurrentUser = async () => {
-      setIsLoading(true);
+    dispatch(getCurrentUser());
+  }, [dispatch]);
 
-      const data = await authService.me();
-
-      if (data.status === "success") {
-        setCurrentUser(data.user);
-      } else {
-        console.error(data?.message);
-      }
-
-      setIsLoading(false);
-    };
-    fetchCurrentUser();
-  }, []);
-
-  const value = {
-    currentUser,
-    isLoading,
-  };
-
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+  return null;
 }
 
 export { UserContext, UserProvider };

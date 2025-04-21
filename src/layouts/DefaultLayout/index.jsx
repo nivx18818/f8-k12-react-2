@@ -1,9 +1,9 @@
-import { NavLink, Outlet } from "react-router-dom";
 import config from "@/config";
-import useUserContext from "@/hooks/useUserContext";
+import { useSelector } from "react-redux";
+import { NavLink, Outlet } from "react-router-dom";
 
 function DefaultLayout() {
-  const { currentUser } = useUserContext();
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   return (
     <div className="wrapper">
@@ -21,7 +21,7 @@ function DefaultLayout() {
         </nav>
       </header>
       <main id="main">
-        <h1>Hi, {currentUser?.username}</h1>
+        {currentUser && <h1>Hi, {currentUser?.username}</h1>}
         <Outlet />
       </main>
       <footer>

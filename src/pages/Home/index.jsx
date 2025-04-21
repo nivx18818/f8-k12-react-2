@@ -1,7 +1,7 @@
 // import { useState } from "react";
 // import useDebounce from "@/hooks/useDebounce";
 import { Accordion, AccordionItem } from "@/components/Accordion";
-import { Tabs, Tab } from "@/components/Tabs";
+import { Tab, Tabs } from "@/components/Tabs";
 
 function Home() {
   // const [preview, setPreview] = useState(null);

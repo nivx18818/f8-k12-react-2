@@ -45,7 +45,7 @@ function Accordion({
         break;
       case "Enter":
       case " ":
-        buttonRefs.current[index].click();
+        buttonRefs.current[index]?.click();
         break;
     }
   };
