@@ -15,6 +15,7 @@ const routes = [
   {
     path: config.routes.home,
     component: Home,
+    protected: true,
   },
   {
     path: config.routes.products,

@@ -5,12 +5,7 @@ import { useSelector } from "react-redux";
 
 function ProtectedRoute({ children }) {
   const location = useLocation();
-  const currentUser = useSelector((state) => state.user.currentUser);
-  // const { currentUser, isLoading } = useUserContext();
-
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   if (!currentUser) {
     const path = encodeURIComponent(location.pathname);

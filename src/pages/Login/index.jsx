@@ -2,8 +2,8 @@ import config from "@/config";
 import { getCurrentUser } from "@/features/auth/authSlice";
 import httpRequest from "@/utils/httpRequest";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 
 function Login() {
   const [params] = useSearchParams();
@@ -14,6 +14,11 @@ function Login() {
   const [hasError, setHasError] = useState(false);
 
   const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.auth.currentUser);
+
+  if (currentUser) {
+    return <Navigate to={params.get("continue") || config.routes.home} />;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
