@@ -10,6 +10,8 @@ import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Users from "@/pages/Users";
 import NotFound from "@/pages/NotFound";
+import NoLayout from "@/layouts/NoLayout";
+import Profile from "@/pages/Profile";
 
 const routes = [
   {
@@ -44,6 +46,12 @@ const routes = [
     path: config.routes.notFound,
     component: NotFound,
     layout: NoHeaderLayout,
+  },
+  {
+    path: config.routes.profile,
+    component: Profile,
+    layout: NoLayout,
+    protected: true,
   },
 ];
 

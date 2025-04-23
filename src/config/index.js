@@ -6,6 +6,7 @@ const config = {
     login: "/login",
     register: "/register",
     users: "/users",
+    profile: "/p/:username",
     notFound: "*",
   },
 };
