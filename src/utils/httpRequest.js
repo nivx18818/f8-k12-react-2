@@ -1,10 +1,10 @@
 import axios from "axios";
 
+let isRefreshing = false;
+let failedQueue = [];
+
 const httpRequest = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
 });
 
 const request = async (method, url, data, config) => {
@@ -37,12 +37,70 @@ export const remove = (url, data, config) => {
   return request("DELETE", url, data, config);
 };
 
-export const setToken = (token) => {
+export const setToken = (token, refreshToken) => {
   localStorage.setItem("token", token);
-  httpRequest.defaults.headers[
-    "Authorization"
-  ] = `Bearer ${localStorage.getItem("token")}`;
+  localStorage.setItem("refresh_token", refreshToken);
 };
+
+const deleteTokens = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("refresh_token");
+};
+
+httpRequest.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => error
+);
+
+httpRequest.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    const refreshToken = localStorage.getItem("refresh_token");
+    const shouldRenewToken = error.response?.status === 401 && refreshToken;
+
+    if (!shouldRenewToken) {
+      return Promise.reject(error);
+    }
+
+    if (isRefreshing) {
+      return new Promise((resolve) => {
+        failedQueue.push(() => resolve(httpRequest(originalRequest)));
+      });
+    }
+
+    isRefreshing = true;
+
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/auth/refresh-token`,
+        {
+          refresh_token: refreshToken,
+        }
+      );
+
+      const data = res.data.data;
+      setToken(data.access_token, data.refresh_token);
+
+      failedQueue.forEach((listener) => listener());
+
+      return httpRequest(originalRequest);
+    } catch (error) {
+      console.error(error);
+      deleteTokens();
+      return Promise.reject(error);
+    } finally {
+      isRefreshing = false;
+      failedQueue = [];
+    }
+  }
+);
 
 export default {
   get,

@@ -1,18 +1,10 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import config from "@/config";
-import userService from "@/services/userService";
+import { useGetAllUsersQuery } from "@/services/user";
 
 function Users() {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      const users = await userService.getAll();
-      setUsers(users);
-    })();
-  }, []);
+  const users = useGetAllUsersQuery();
 
   return (
     <div>

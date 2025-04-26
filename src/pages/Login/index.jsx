@@ -1,5 +1,6 @@
 import config from "@/config";
 import { getCurrentUser } from "@/features/auth/authSlice";
+import authService from "@/services/authService";
 import httpRequest from "@/utils/httpRequest";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,8 +27,8 @@ function Login() {
     const formValues = { email, password };
 
     try {
-      const res = await httpRequest.post("/auth/login", formValues);
-      httpRequest.setToken(res.data.access_token);
+      const data = await authService.login(formValues);
+      httpRequest.setToken(data.access_token, data.refresh_token);
       dispatch(getCurrentUser());
       navigate(params.get("continue") || config.routes.home);
     } catch (error) {

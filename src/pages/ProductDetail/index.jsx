@@ -1,19 +1,9 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
-import productService from "@/services/productService";
+import { useGetOneProductQuery } from "@/services/product";
 
 function ProductDetail() {
-  const [product, setProduct] = useState([]);
   const params = useParams();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await productService.getOne(params.slug);
-      setProduct(data);
-    }
-    fetchData();
-  }, [params.slug]);
+  const product = useGetOneProductQuery(params.slug);
 
   return (
     <>

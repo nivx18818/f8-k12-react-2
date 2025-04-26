@@ -25,7 +25,7 @@ const store = configureStore({
   reducer: persistReducer(rootConfig, rootReducer),
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat(
-      logger,
+      // logger,
       productApi.middleware,
       userApi.middleware
     ),

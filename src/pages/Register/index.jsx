@@ -32,7 +32,7 @@ function Register() {
     const data = await authService.register(userInfo);
 
     if (data.status === "success") {
-      httpRequest.setToken(data.access_token);
+      httpRequest.setToken(data.access_token, data.refresh_token);
       navigate(config.routes.home);
     }
   };
